@@ -20,30 +20,20 @@ const Forgotpassword = () => {
       });
       const response = await request.json();
       ResetToken(response.resetToken);
-      if (!request.ok) {
-        let timerInterval;
+      if(request.ok == false){
+         Swal.fire({
+          title: 'Request Error',
+          text: 'Try again letter',
+          icon: 'error'
+         })
+      }else{
         Swal.fire({
-          title: response.message,
-          html: "I will close in <b></b> milliseconds.",
-          timer: 2000,
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading();
-            const timer = Swal.getPopup().querySelector("b");
-            timerInterval = setInterval(() => {
-              timer.textContent = `${ Swal.getTimerLeft() }`;
-            }, 100);
-          },
-          willClose: () => {
-            clearInterval(timerInterval);
-          }
-        }).then((result) => {
-          if (result.dismiss === Swal.DismissReason.timer) {
-            console.log("I was closed by the timer");
-          }
+          title: 'Request Success',
+          text: 'Forgot Successfully!',
+          icon: 'success'
         });
+        navigate("/reset-password");
       }
-      navigate("/reset-password");
     } catch (err) {
       console.error("Internal Server error :", err);
     }
