@@ -16,30 +16,37 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const [u, setU] = useState();
   const navigate = useNavigate()
-  useEffect(()=>{
+  useEffect(() => {
     const g = async () => {
-      const res = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/profile",{
-        method: "GET",
-        credentials: "include",
-      });
+      try {
+        const res = await fetch(
+          "https://todolist-backend-node-js-apis-project.onrender.com/api/profile",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
 
-      const data = await res.json();
-      console.log(data);
-      if (data.status_code == 401) {
-        Swal.fire({
-          title: 'Auto Logout!',
-          text: 'Please Login Again',
-          icon: 'warning',
-          timer: 2000
-        }).then(function(){
-          navigate('/login');
-        })
-        
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          const text = await res.text();
+          console.error("Non-JSON response:", text);
+          return;
+        }
+
+        const data = await res.json();
+        console.log("Profile response:", data);
+
+        if (data.status_code === 401) {
+          navigate("/login");
+        }
+        setU(data?.user);
+      } catch (err) {
+        console.error("Fetch error:", err);
       }
-      return data;
     };
     g().then((e) => setU(e?.user));
-  },[]);
+  }, []);
   return (
     <div style={{ backgroundColor: '#166C96', height: '55.98rem' }}>
       <Navbar style={{ backgroundColor: '#1b2651', color: '#edeae1' }}>
@@ -78,11 +85,11 @@ const Home = () => {
       </div>
       <br /><br />
       <div className="d-flex justify-content-center row gap-4 text-center">
-        <div className="col-md-4 card" style={{ boxShadow: '-3px 4px 4px 2px #1b2651',backgroundColor: '#edeae1', color: '#1b2651', border: 'none' }}>
-          <img src="/addtodolist.png" style={{backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}}/>
+        <div className="col-md-4 card" style={{ boxShadow: '-3px 4px 4px 2px #1b2651', backgroundColor: '#edeae1', color: '#1b2651', border: 'none' }}>
+          <img src="/addtodolist.png" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} />
         </div>
-        <div className="col-md-4 card" style={{ boxShadow: '-3px 4px 4px 2px #1b2651',backgroundColor: '#edeae1', color: '#1b2651', border: 'none' }}>
-          <img src="/list.png" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', minHeight: '19.3vh'}} />
+        <div className="col-md-4 card" style={{ boxShadow: '-3px 4px 4px 2px #1b2651', backgroundColor: '#edeae1', color: '#1b2651', border: 'none' }}>
+          <img src="/list.png" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', minHeight: '19.3vh' }} />
         </div>
       </div>
     </div>
