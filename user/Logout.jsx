@@ -11,7 +11,6 @@ const Logout = () => {
         method: "POST",
         credentials: "include",
       });
-
       const data = await res.json();
       if (res.ok) {
         Swal.fire({

@@ -12,9 +12,10 @@ import { FaReact } from "react-icons/fa";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-
+import { useNavigate } from "react-router-dom";
 const Home = () => {
   const [u, setU] = useState();
+  const navigate = useNavigate()
   useEffect(()=>{
     const g = async () => {
       const res = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/profile",{
@@ -31,7 +32,7 @@ const Home = () => {
           icon: 'warning',
           timer: 2000
         }).then(function(){
-          window.location.href = '/login';
+          navigate('/login');
         })
         
       }
