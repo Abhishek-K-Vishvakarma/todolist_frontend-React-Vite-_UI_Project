@@ -18,7 +18,7 @@ const Home = () => {
   const navigate = useNavigate();
   useEffect(()=>{
     const g = async () => {
-      const res = await fetch("http://localhost:5005/api/profile", {
+      const res = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/profile", {
         method: "GET",
         credentials: "include",
       });

@@ -9,7 +9,7 @@ const UserProfile = () => {
   const [email, setEmail] = useState("");
   const [u, setU] = useState();
   const g = async () => {
-    const res = await fetch("http://localhost:5005/api/profile", {
+    const res = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/profile", {
       method: "GET",
       credentials: "include",
     });
@@ -52,7 +52,7 @@ const UserProfile = () => {
       return;
     }
     try {
-      const request = await fetch(`http://localhost:5005/api/edituser/${u?._id}`, {
+      const request = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/edituser/${u?._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"

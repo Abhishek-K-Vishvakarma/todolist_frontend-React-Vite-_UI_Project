@@ -11,7 +11,7 @@ const Forgotpassword = () => {
   const handleForgotPassword = async(e) => {
     e.preventDefault();
     try {
-      const request = await fetch("http://localhost:5005/api/forgot-password", {
+      const request = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/forgot-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -67,4 +67,4 @@ const Forgotpassword = () => {
   )
 }
 
-export default Forgotpassword
+export default Forgotpassword;

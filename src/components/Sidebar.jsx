@@ -11,15 +11,10 @@ import { MdNoAccounts } from "react-icons/md";
 import { LuLogOut } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { MdFormatListBulletedAdd } from "react-icons/md";
-// import { useAuth } from "./Auth";
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
-  // const [view, setView] = useState(false);
   const show = () => setOpen(true);
   const hide = () => setOpen(false);
-  // const {usename} = useAuth();
-  // const overview = () => setView(true);
-  // console.log(usename);
   return (
     <div>
       <p className="d-flex align-items-center gap-2" style={{ color: '#edeae1'}}><GoSidebarCollapse onClick={show} style={{ fontSize: '35px', color: '#edeae1', cursor: 'pointer', boxShadow: '-3px 3px 4px 3px #1b2651' }} /><b>TaskBoard</b></p>

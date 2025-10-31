@@ -16,7 +16,7 @@ const EmailandOtpVerify = () => {
       isVerified: true
     }
     try {
-      const request = await fetch("http://localhost:5005/api/verify", {
+      const request = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/verify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -82,7 +82,7 @@ const EmailandOtpVerify = () => {
       return;
     }
     try {
-      const request = await fetch(`http://localhost:5005/api/resend/${users._id}`, {
+      const request = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/resend/${users._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"

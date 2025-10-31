@@ -7,7 +7,7 @@ const Logout = () => {
 
   const LogoutUser = async () => {
     try {
-      const res = await fetch("http://localhost:5005/api/logout", {
+      const res = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/logout", {
         method: "POST",
         credentials: "include",
       });

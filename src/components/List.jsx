@@ -9,7 +9,7 @@ const List = () => {
   const navigate = useNavigate();
   const { NameObjects } = useAuth();
   useEffect(()=>{
-    fetch("http://localhost:5005/api/getname")
+    fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/getname")
       .then(e => e.json())
       .then((data) => {
         setList(data.findAllName);
@@ -18,7 +18,7 @@ const List = () => {
 
   const DelName = async(id)=>{
 
-    await fetch(`http://localhost:5005/api/deletename/${id}`,{
+    await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/deletename/${id}`,{
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"

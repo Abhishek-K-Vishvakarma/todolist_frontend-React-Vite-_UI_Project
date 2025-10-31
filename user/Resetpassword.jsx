@@ -18,7 +18,7 @@ const Resetpassword = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5005/api/reset-password/${ authToken }`, {
+      const response = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/reset-password/${authToken}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -15,7 +15,7 @@ const Edit = () => {
   }, [usename])
   const Save = async (e) => {
     e.preventDefault();
-    const request = await fetch(`http://localhost:5005/api/editname/${usename._id}`,{
+    const request = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/editname/${usename._id}`,{
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
