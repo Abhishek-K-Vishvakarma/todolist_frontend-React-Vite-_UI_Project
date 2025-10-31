@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { Container, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { useAuth } from "../src/components/Auth";
 import { FaEye } from "react-icons/fa";
 import { LuEyeClosed } from "react-icons/lu";
 const Sign = () => {
@@ -12,7 +11,6 @@ const Sign = () => {
   const genRef = useRef();
   const ageRef = useRef();
   const navigate = useNavigate();
-  const { UserData } = useAuth();
   const [a, setA] = useState('password');
   const SubmitSignUp = async (e) => {
     e.preventDefault();
@@ -40,31 +38,22 @@ const Sign = () => {
       });
       return;
     }
-    if(!/^[a-z|A-Z]+$/.test(nRef.current.value) || !nRef.current.value ){
-      document.getElementById("nerror").innerHTML = "Please Enter a fullname in alphabatic format";
+    if (!/^[A-Za-z\s]{3,30}$/.test(nRef.current.value)) {
+      document.getElementById("nerror").innerHTML = "Please enter a valid full name (letters only)";
       return;
-    }else{
-      document.getElementById("nerror").innerHTML = "";
     }
-    if (!/^[a-z0-9]+[@]+[a-z]+[.]+[a-z]+$/.test(emRef.current.value) || !emRef.current.value) {
-      document.getElementById("mailerror").innerHTML = "Please Enter a email format with one special symbol., (@)";
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emRef.current.value)) {
+      document.getElementById("mailerror").innerHTML = "Please enter a valid email address";
       return;
-    }else{
-      document.getElementById("mailerror").innerHTML = "";
     }
-    if (!/^[a-z0-9|^|!|@|$|&]{8}$/.test(passRef.current.value) || !passRef.current.value) {
-      document.getElementById("passerror").innerHTML = "Password must be at least 8 characters and include any one special character., (^/!/@/$/&)";
+    if (!/^[A-Za-z\d@$!%*?&]{8,}$/.test(passRef.current.value)) {
+      document.getElementById("passerror").innerHTML = "Password must contain 8+ chars, uppercase, lowercase, number, and symbol";
       return;
-    }else{
-      document.getElementById("passerror").innerHTML = "";
     }
-    if (!/^[0-9]{2}$/.test(ageRef.current.value) || !ageRef.current.value) {
-      document.getElementById("ageerror").innerHTML = "Password must be at least 2 digits age only";
+    if (!/^\d{1,2}$/.test(ageRef.current.value)) {
+      document.getElementById("ageerror").innerHTML = "Please enter a valid age (1–99)";
       return;
-    } else {
-      document.getElementById("ageerror").innerHTML = "";
     }
-
     const obj = {
       name: nRef.current.value,
       email: emRef.current.value,
@@ -81,54 +70,13 @@ const Sign = () => {
         body: JSON.stringify(obj)
       });
       const response = await request.json();
-      UserData(response.savedUser);
-      if(request.ok == false){
-        let timerInterval;
-        Swal.fire({
-          title: response.message,
-          html: "I will close in <b></b> milliseconds.",
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading();
-            const timer = Swal.getPopup().querySelector("b");
-            timerInterval = setInterval(() => {
-              timer.textContent = `${ Swal.getTimerLeft() }`;
-            }, 100);
-          },
-          willClose: () => {
-            clearInterval(timerInterval);
-          }
-        }).then((result) => {
-          if (result.dismiss === Swal.DismissReason.timer) {
-            console.log("I was closed by the timer");
-          }
-        });
+      if(request.status == false){
+         alert("Already")
       }else{
-        let timerInterval;
-        Swal.fire({
-          title: response.message,
-          html: "I will close in <b></b> milliseconds.",
-          timer: 2000,
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading();
-            const timer = Swal.getPopup().querySelector("b");
-            timerInterval = setInterval(() => {
-              timer.textContent = `${ Swal.getTimerLeft() }`;
-            }, 100);
-          },
-          willClose: () => {
-            clearInterval(timerInterval);
-          }
-        }).then((result) => {
-          if (result.dismiss === Swal.DismissReason.timer) {
-            console.log("I was closed by the timer");
-          }
-        });
+         alert("Registered!");
+         navigate("/verify");
       }
-      navigate("/verify");
-      console.log(response);
+      console.log(request, response)
     } catch (err) {
       console.error("Internal Server error :", err);
     }

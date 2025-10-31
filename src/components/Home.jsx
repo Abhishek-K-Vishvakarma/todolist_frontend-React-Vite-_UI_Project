@@ -1,6 +1,6 @@
 import { Container, Navbar } from "react-bootstrap";
 import Sidebar from "./Sidebar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { LuCircleUserRound } from "react-icons/lu";
 import { FaUserShield } from "react-icons/fa";
 import { TbPencilCheck } from "react-icons/tb";
@@ -15,10 +15,9 @@ import Swal from "sweetalert2";
 
 const Home = () => {
   const [u, setU] = useState();
-  const navigate = useNavigate();
   useEffect(()=>{
     const g = async () => {
-      const res = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/profile", {
+      const res = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/profile",{
         method: "GET",
         credentials: "include",
       });
@@ -26,28 +25,15 @@ const Home = () => {
       const data = await res.json();
       console.log(data);
       if (data.status_code == 401) {
-        let timerInterval;
-                Swal.fire({
-                  title: "Sign in now?",
-                  html: "I will close in <b></b> milliseconds.",
-                  timer: 2000,
-                  timerProgressBar: true,
-                  didOpen: () => {
-                    Swal.showLoading();
-                    const timer = Swal.getPopup().querySelector("b");
-                    timerInterval = setInterval(() => {
-                      timer.textContent = `${ Swal.getTimerLeft() }`;
-                    }, 100);
-                  },
-                  willClose: () => {
-                    clearInterval(timerInterval);
-                  }
-                }).then((result) => {
-                  if (result.dismiss === Swal.DismissReason.timer) {
-                    console.log("I was closed by the timer");
-                  }
-                  navigate('/login');
-              });
+        Swal.fire({
+          title: 'Auto Logout!',
+          text: 'Please Login Again',
+          icon: 'warning',
+          timer: 2000
+        }).then(function(){
+          window.location.href = '/login';
+        })
+        
       }
       return data;
     };

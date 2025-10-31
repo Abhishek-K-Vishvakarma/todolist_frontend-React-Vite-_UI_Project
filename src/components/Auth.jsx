@@ -23,7 +23,7 @@ const AuthProvider = ({ children }) => {
   const AuthUserData = (data) => {
     console.log("AuthUserData received:", data);
     if (!data) {
-      console.warn("⚠️ No data passed to AuthUserData!");
+      console.warn("No data passed to AuthUserData!");
       return;
     }
     setAuthUser(data);
