@@ -40,7 +40,7 @@ const Sign = () => {
       });
       return;
     }
-    if(!/^[a-zA-Z]+$/.test(nRef.current.value) || !nRef.current.value ){
+    if(!/^[a-z|A-Z]+$/.test(nRef.current.value) || !nRef.current.value ){
       document.getElementById("nerror").innerHTML = "Please Enter a fullname in alphabatic format";
       return;
     }else{
@@ -70,7 +70,7 @@ const Sign = () => {
       email: emRef.current.value,
       password: passRef.current.value,
       gender: genRef.current.value,
-      age: ageRef.current.value * 1
+      age: Number(ageRef.current.value)
     }
     try {
       const request = await fetch("http://localhost:5005/api/sign", {
@@ -126,8 +126,8 @@ const Sign = () => {
             console.log("I was closed by the timer");
           }
         });
-        navigate("/verify");
       }
+      navigate("/verify");
       console.log(response);
     } catch (err) {
       console.error("Internal Server error :", err);
