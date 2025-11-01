@@ -7,7 +7,6 @@ import { LuClipboardList } from "react-icons/lu";
 const Add_To_Do_List = () => {
   const nameRef = useRef("");
   const [msg, setMsg] = useState("");
-  const [msg1, setMsg1] = useState("");
   const navigate = useNavigate();
   const AddedName = async (e) => {
     if (nameRef.current.value == "") {
@@ -26,58 +25,21 @@ const Add_To_Do_List = () => {
         body: JSON.stringify({ name: nameRef.current.value })
       })
       const response = await request.json();
-      if (!request.ok) {
-        console.error(response.message);
-        let timerInterval;
-          Swal.fire({
-            title: "Please! fill input field",
-            html: "I will close in <b></b> milliseconds.",
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: () => {
-              Swal.showLoading();
-              const timer = Swal.getPopup().querySelector("b");
-              timerInterval = setInterval(() => {
-                timer.textContent = `${ Swal.getTimerLeft() }`;
-              }, 100);
-            },
-            willClose: () => {
-              clearInterval(timerInterval);
-            }
-          }).then((result) => {
-            if (result.dismiss === Swal.DismissReason.timer) {
-              console.log("I was closed by the timer");
-            }
-          });
-      } else {
-        console.log("Added name successful!");
-        let timerInterval;
-          Swal.fire({
-            title: "Auto close alert!",
-            html: "I will close in <b></b> milliseconds.",
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: () => {
-              Swal.showLoading();
-              const timer = Swal.getPopup().querySelector("b");
-              timerInterval = setInterval(() => {
-                timer.textContent = `${ Swal.getTimerLeft() }`;
-              }, 100);
-            },
-            willClose: () => {
-              clearInterval(timerInterval);
-            }
-          }).then((result) => {
-            if (result.dismiss === Swal.DismissReason.timer) {
-              console.log("I was closed by the timer");
-            }
-          });
-        setMsg1("Name Addedd Successful!");
-        setTimeout(()=>{
-          setMsg1("");
-          navigate("/list")
-        }, 2000)
+      if(request.status == false){
+         Swal.fire({
+          title: response.message,
+          text: 'Please Try again!',
+          icon: 'error'
+         })
+      }else{
+        Swal.fire({
+          title: response.message,
+          text: 'Adding in the list Successfully!',
+          icon: 'success'
+        })
+        navigate("/list");
       }
+      
     } catch (err) {
       console.error("Internal Server error:", err);
     }
@@ -94,7 +56,7 @@ const Add_To_Do_List = () => {
       <form onSubmit={AddedName} className="container card form-group" validate style={{padding: '30px', backgroundColor: '#edeae1', boxShadow: '-3px 3px 3px 3px #1b2651' }}>
         <LuClipboardList style={{ fontSize: '50px', color: '#166c96', boxShadow: '-3px 3px 3px 3px #1b2651', cursor: 'pointer'}}/>
         <h3 className="text-center">ToDo-List Website</h3>
-        <p className="text-danger text-center">{msg}</p><p className="text-success text-center">{msg1}</p>
+        <p className="text-danger text-center">{msg}</p>
         <label htmlFor="name" className="text-center" style={{ color: '#1b2651', fontSize: '18px', fontWeight: 'bold' }}>Add Somethings:</label><br />
         <input type="text" className="form-control" htmlFor="name" name="name" ref={nameRef} style={{ padding: '12px', textAlign: 'center', fontSize: '18px' }} /><br />
         <button type="submit" className="form-control" style={{ backgroundColor: '#166c96', color: '#edeae1', padding: '12px', fontSize: '18px' }}>Add</button>

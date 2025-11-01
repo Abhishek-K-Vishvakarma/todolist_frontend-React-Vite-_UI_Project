@@ -16,7 +16,7 @@ const Sign = () => {
   const [a, setA] = useState('password');
   const SubmitSignUp = async (e) => {
     e.preventDefault();
-    if (nRef.current.value == "" || emRef.current.value == "" || passRef.current.value == "" || genRef.current.value == "" || genRef.current.value == ""){
+    if (nRef.current.value == "" || emRef.current.value == "" || passRef.current.value == ""){
       let timerInterval;
       Swal.fire({
         title: "All fields must be required!",
@@ -50,11 +50,9 @@ const Sign = () => {
     }
     if (!/^[A-Za-z\d@$!%*?&]{8,}$/.test(passRef.current.value)) {
       document.getElementById("passerror").innerHTML = "Password must contain 8+ chars, uppercase, lowercase, number, and symbol";
-      return;
     }
     if (!/^\d{1,2}$/.test(ageRef.current.value)) {
       document.getElementById("ageerror").innerHTML = "Please enter a valid age (1–99)";
-      return;
     }
     const obj = {
       name: nRef.current.value,
@@ -73,11 +71,22 @@ const Sign = () => {
       });
       const response = await request.json();
       SignupUserData(response)
-      if(request.status == false){
-         alert("Already")
+      if(request.status == 400){
+            Swal.fire({
+              title: "Invalid Request!",
+              text: response.message,
+              icon: 'error',
+              timer: 2000
+            });
       }else{
-         alert("Registered!");
-         navigate("/verify");
+        Swal.fire({
+          title: "Request Success!",
+          text: response.message,
+          icon: 'success',
+          timer: 2000
+        }).then(function(){
+          navigate("/verify");
+        });
       }
       console.log(request, response)
     } catch (err) {

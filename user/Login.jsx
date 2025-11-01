@@ -29,8 +29,7 @@ const Login = () => {
     };
 
     try {
-      const request = await fetch(
-        "https://todolist-backend-node-js-apis-project.onrender.com/api/login",
+      const request = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/login",
         {
           method: "POST",
           headers: {

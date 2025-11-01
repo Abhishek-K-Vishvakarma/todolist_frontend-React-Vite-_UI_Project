@@ -12,10 +12,10 @@ import { FaReact } from "react-icons/fa";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const Home = () => {
   const [u, setU] = useState();
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   useEffect(() => {
     const g = async () => {
       try {
@@ -29,11 +29,10 @@ const Home = () => {
           }
         );
         const data = await res.json();
-        // console.log("Profile response:", data);
-        setU(data?.user)
-        if (data.status_code === 401) {
-            window.location.href = "/login";
+        if(data?.status_code == 401){
+           navigate("/login");  
         }
+        setU(data?.user)
       } catch (err) {
         console.error("Fetch error:", err);
       }

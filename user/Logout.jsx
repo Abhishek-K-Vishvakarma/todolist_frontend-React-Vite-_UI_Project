@@ -12,7 +12,7 @@ const Logout = () => {
         credentials: "include",
       });
       const data = await res.json();
-      if (res.ok) {
+      if (res.ok){
         Swal.fire({
           title: "Logout Successful!",
           html: "Redirecting to login page...",

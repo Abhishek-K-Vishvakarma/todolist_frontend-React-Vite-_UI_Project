@@ -16,7 +16,7 @@ const UserProfile = () => {
 
     const data = await res.json();
     if (data.status_code == 401) {
-      window.location.href = "/login";
+        window.location.href = "/login";
     }
     return data;
   };

@@ -6,16 +6,16 @@ import Swal from "sweetalert2";
 const Edit = () => {
   const [n, setN] = useState();
   const [msg, setMsg] = useState();
-  const { usename } = useAuth(false);
+  const { username } = useAuth(false);
   const navigate = useNavigate();
   useEffect(() => {
-    if (usename) {
-      setN(usename.name);
+    if (username) {
+      setN(username.name);
     }
-  }, [usename])
+  }, [username])
   const Save = async (e) => {
     e.preventDefault();
-    const request = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/editname/${usename._id}`,{
+    const request = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/editname/${username._id}`,{
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
