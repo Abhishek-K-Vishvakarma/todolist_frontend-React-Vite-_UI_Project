@@ -69,7 +69,7 @@ const Login = () => {
 
   return (
     <div style={{ backgroundColor: "#166C96", height: "56.96rem" }}>
-      <Navbar style={{ backgroundColor: "#1b2651", color: "#edeae1" }}>
+      {/* <Navbar style={{ backgroundColor: "#1b2651", color: "#edeae1" }}>
         <Container>
           <h4>
             <Link to="/" style={{ textDecoration: "none", color: "#fff" }}>
@@ -78,7 +78,7 @@ const Login = () => {
           </h4>
           <h4>Sign in To-Do-List</h4>
         </Container>
-      </Navbar>
+      </Navbar> */}
       <br />
       <form
         // onSubmit={LoginUser}
@@ -100,11 +100,11 @@ const Login = () => {
         </button>
         <br />
         <p>
-          You don't have an account? <Link to="/sign">Sign Up</Link>
+          {/* You don't have an account? <Link to="/sign">Sign Up</Link> */}
         </p>
         <p>
           Forgot password?{" "}
-          <Link to="/forgot-password">Forgot-Password</Link>
+          {/* <Link to="/forgot-password">Forgot-Password</Link> */}
         </p>
       </form>
     </div>
