@@ -49,7 +49,6 @@ const Login = () => {
        });
        const response = await request.json();
        AuthUserData(response.login);
-       console.log("Login response :", response);
        if(!request.ok){
                let timerInterval;
                Swal.fire({

@@ -12,7 +12,6 @@ const AuthProvider = ({ children }) => {
     const storedUser = localStorage.getItem("userData");
     const storedToken = localStorage.getItem("setToken");
     const signUpUser = localStorage.getItem("signUp");
-    console.log("signUpUser from Auth :", signUpUser)
     if (storedName) setUsername(JSON.parse(storedName));
     if (storedUser) setAuthUser(JSON.parse(storedUser));
     if (storedToken) setAuthToken(JSON.parse(storedToken));
@@ -26,12 +25,10 @@ const AuthProvider = ({ children }) => {
   const AuthUserData = (data) => {
     console.log("AuthUserData received:", data);
     if (!data) {
-      console.warn("No data passed to AuthUserData!");
-      return;
+        return;
     }
     setAuthUser(data);
     localStorage.setItem("userData", JSON.stringify(data));
-    console.log("Saved user data:", data);
   };
 
   const ResetToken = (token) => {
