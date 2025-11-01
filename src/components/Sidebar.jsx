@@ -17,7 +17,7 @@ const Sidebar = () => {
   const hide = () => setOpen(false);
   return (
     <div>
-      <p className="d-flex align-items-center gap-2" style={{ color: '#edeae1'}}><GoSidebarCollapse onClick={show} style={{ fontSize: '35px', color: '#edeae1', cursor: 'pointer', boxShadow: '-3px 3px 4px 3px #1b2651' }} /><b>TaskBoard</b></p>
+      <p className="d-flex align-items-center gap-2" style={{ color: '#edeae1', boxShadow: '-3px 3px 4px 3px #1b2651' }}><GoSidebarCollapse onClick={show} style={{ fontSize: '35px', color: '#edeae1', cursor: 'pointer'}} /><b>TaskBoard</b></p>
       <Offcanvas show={open}>
         <div className="container my-3">
           <div className="row justify-content-center align-items-center text-center bg-light p-3 rounded shadow-sm">

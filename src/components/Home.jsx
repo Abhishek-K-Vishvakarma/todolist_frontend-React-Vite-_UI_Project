@@ -54,28 +54,28 @@ const Home = () => {
         <br />
         <div className="container row mt-4">
           <div className="col-md-4">
-            <h5 className="d-flex align-items-center justify-content-center gap-2"><MdPlaylistAdd /> Add Your Choice Materials</h5>
+            <h6 className="d-flex align-items-center justify-content-center gap-2 p-1" style={{ boxShadow: '-2px 2px 4px 2px #1b2651' }}><MdPlaylistAdd /> Add List</h6>
           </div>
           <div className="col-md-4">
-            <h5 className="d-flex align-items-center justify-content-center gap-2"><TbPencilCheck />Edit Config List</h5>
+            <h6 className="d-flex align-items-center justify-content-center gap-2 p-1" style={{ boxShadow: '-2px 2px 4px 2px #1b2651' }}><TbPencilCheck />Edit List</h6>
           </div>
           <div className="col-md-4">
-            <h5 className="d-flex align-items-center justify-content-center gap-2"><RiFindReplaceLine />Find Management of the List Item's</h5>
+            <h6 className="d-flex align-items-center justify-content-center gap-2 p-1" style={{ boxShadow: '-2px 2px 4px 2px #1b2651' }}><RiFindReplaceLine />Find of the List Item's</h6>
           </div>
         </div>
         <div className="container row mt-5">
           <div className="col-md-4">
-            <h5 className="d-flex align-items-center justify-content-center gap-2"><IoIosRemoveCircle />Remove List item indivisualy</h5>
+            <h6 className="d-flex align-items-center justify-content-center gap-2 p-1" style={{ boxShadow: '-2px 2px 4px 2px #1b2651' }}><IoIosRemoveCircle />Remove List item</h6>
           </div>
           <div className="col-md-4">
-            <h5 className="d-flex align-items-center justify-content-center gap-2"><BsReverseListColumnsReverse />Operations of Facility</h5>
+            <h6 className="d-flex align-items-center justify-content-center gap-2 p-1" style={{ boxShadow: '-2px 2px 4px 2px #1b2651' }}><BsReverseListColumnsReverse />Actions Facilities</h6>
           </div>
           <div className="col-md-4">
-            <h5 className="d-flex align-items-center justify-content-center gap-2"><FaReact />UI For better Experience</h5>
+            <h6 className="d-flex align-items-center justify-content-center gap-2 p-1" style={{ boxShadow: '-2px 2px 4px 2px #1b2651' }}><FaReact />UI For better Experience</h6>
           </div>
         </div>
       </div>
-      <br /><br />
+      <br />
       <div className="d-flex justify-content-center row gap-4 text-center">
         <div className="col-md-4 card" style={{ boxShadow: '-3px 4px 4px 2px #1b2651', backgroundColor: '#edeae1', color: '#1b2651', border: 'none' }}>
           <img src="/addtodolist.png" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} />
