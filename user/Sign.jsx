@@ -4,12 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { FaEye } from "react-icons/fa";
 import { LuEyeClosed } from "react-icons/lu";
+import { useAuth } from "../src/components/Auth";
 const Sign = () => {
   const nRef = useRef()
   const emRef = useRef();
   const passRef = useRef();
   const genRef = useRef();
   const ageRef = useRef();
+  const { SignupUserData } = useAuth();
   const navigate = useNavigate();
   const [a, setA] = useState('password');
   const SubmitSignUp = async (e) => {
@@ -70,6 +72,7 @@ const Sign = () => {
         body: JSON.stringify(obj)
       });
       const response = await request.json();
+      SignupUserData(response)
       if(request.status == false){
          alert("Already")
       }else{

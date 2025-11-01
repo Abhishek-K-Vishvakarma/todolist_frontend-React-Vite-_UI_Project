@@ -7,7 +7,7 @@ const EmailandOtpVerify = () => {
   const emRef = useRef();
   const otpRef = useRef();
   const navigate = useNavigate();
-  const {users} = useAuth();
+  const { signup } = useAuth();
   const submitVerify = async (e) => {
     e.preventDefault();
     const obj = {
@@ -77,12 +77,12 @@ const EmailandOtpVerify = () => {
     }
   }
   const ResendOTP = async () => {
-    if (users.isVerified == true) {
+    if (signup?.savedUser?.isVerified == true) {
       alert("Already verified!");
       return;
     }
     try {
-      const request = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/resend/${users._id}`, {
+      const request = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/resend/${signup?.savedUser?._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
@@ -131,12 +131,10 @@ const EmailandOtpVerify = () => {
         <label>OTP</label>
         <input type='text' className='form-control' ref={otpRef}/><br />
         <div className="row d-flex">
-        <div className="col-md-6">
-            <button type='submit' className='btn btn-success w-100'>Verify</button>
-        </div>
+            <button type='submit' className='btn btn-success' style={{width: '100%'}}>Verify-OTP</button>
         </div>
       </form>
-        <button onClick={ResendOTP} className="btn btn-primary mt-1" style={{width: '38.55rem'}}>Resend-OTP</button>
+        <button onClick={ResendOTP} className="btn btn-primary mt-1">Resend-OTP</button>
       </div>
     </div>
   )
