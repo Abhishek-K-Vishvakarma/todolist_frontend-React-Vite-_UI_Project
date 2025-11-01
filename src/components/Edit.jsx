@@ -5,7 +5,6 @@ import { useAuth } from "./Auth";
 import Swal from "sweetalert2";
 const Edit = () => {
   const [n, setN] = useState();
-  const [msg, setMsg] = useState();
   const { username } = useAuth(false);
   const navigate = useNavigate();
   useEffect(() => {
@@ -20,40 +19,26 @@ const Edit = () => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ name: n})
+      body: JSON.stringify({ name: n })
     })
     let res = await request.json();
-    if(res.status == true){
-       setMsg("Updated!");
-       setTimeout(()=>{
-       setMsg("");
-       navigate("/list");
-       }, 2000);
-      setN("");
-      let timerInterval;
+    if (!request.ok) {
       Swal.fire({
-        title: "Name Updated Succssfully!",
-        html: "I will close in <b></b> milliseconds.",
+        title: res.message,
+        icon: "error",
         timer: 2000,
-        timerProgressBar: true,
-        didOpen: () => {
-          Swal.showLoading();
-          const timer = Swal.getPopup().querySelector("b");
-          timerInterval = setInterval(() => {
-            timer.textContent = `${ Swal.getTimerLeft() }`;
-          }, 100);
-        },
-        willClose: () => {
-          clearInterval(timerInterval);
-        }
-      }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.timer) {
-          console.log("I was closed by the timer");
-        }
+        showConfirmButton: false,
       });
-      localStorage.removeItem("useName");
+    } else {
+      Swal.fire({
+        title: res.message || "Edit Successful!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      navigate("/list");
     }
-    console.log(res);
+    localStorage.removeItem("useName");
   }
   return (
     <div style={{ backgroundColor: '#166C96', height: '56.96rem' }}>
@@ -62,13 +47,13 @@ const Edit = () => {
           <h4><Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>Home</Link></h4><h4>Edit To-Do-List</h4>
         </Container>
       </Navbar>
-      <br/>
+      <br />
       <form onSubmit={Save} className="container card" style={{ height: '20rem', padding: '30px', backgroundColor: '#edeae1', boxShadow: '-3px 3px 3px 3px #1b2651' }}>
         <p className="text-center text-success">{msg}</p>
-        
+
         <h4 className="text-center">Update List Item's indivisualy</h4>
-        <br/>
-        <input type="text" className="form-control text-center" value={n} onChange={(e) => setN(e.target.value)}/><br/>
+        <br />
+        <input type="text" className="form-control text-center" value={n} onChange={(e) => setN(e.target.value)} /><br />
         <button type="submit" className="btn btn-success">Save Changes</button>
       </form>
     </div>

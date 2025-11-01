@@ -12,7 +12,6 @@ const Login = () => {
 
   const LoginUser = async (e) => {
     e.preventDefault();
-
     if (!emRef.current.value || !passRef.current.value) {
       Swal.fire({
         title: "All fields are required!",
@@ -22,7 +21,6 @@ const Login = () => {
       });
       return;
     }
-
     const obj = {
       email: emRef.current.value,
       password: passRef.current.value,
@@ -32,9 +30,7 @@ const Login = () => {
       const request = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/login",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(obj),
         }
@@ -57,16 +53,15 @@ const Login = () => {
           timer: 3000,
         });
         return;
+      }else{
+        Swal.fire({
+          title: response.message || "Login Successful!",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+        navigate("/");
       }
-
-      Swal.fire({
-        title: response.message || "Login Successful!",
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false,
-      });
-
-      setTimeout(() => navigate("/"), 2000);
     } catch (err) {
       Swal.fire("Error", "Unable to connect to the server.", "error", err);
     }
