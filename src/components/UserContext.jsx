@@ -28,6 +28,24 @@ export const UserProvider = ({ children }) => {
     fetchProfile();
   }, []);
 
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const res = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/token`, {
+        method: "GET",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (data.status_code === 401) {
+        localStorage.clear();
+        window.location.href = "/login";
+      }
+    };
+    checkSession();
+    const interval = setInterval(checkSession, 5 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <UserContext.Provider value={{ user, setUser }}>
       {children}
