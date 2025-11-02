@@ -1,13 +1,14 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { Container, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-// import { useAuth } from "../src/components/Auth";
+// import { useUser } from "../src/components/UserContext";
 const EmailandOtpVerify = () => {
   const emRef = useRef();
   const otpRef = useRef();
   const navigate = useNavigate();
-  // const { signup } = useAuth();
+  // const {user} = useUser();
+  const [id, setId] = useState("");
   const submitVerify = async (e) => {
     e.preventDefault();
     const obj = {
@@ -76,6 +77,13 @@ const EmailandOtpVerify = () => {
       console.log("Internal Server Error :", err);
     }
   }
+  fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/users")
+  .then(e=> e.json())
+  .then((data)=>{
+   const find = data.users.find(e=> e.otp && e.isVerified == false);
+   setId(find);
+  });
+
   const ResendOTP = async () => {
     // if (signup?.savedUser?.isVerified == true) {
     //   Swal.fire({
@@ -87,7 +95,7 @@ const EmailandOtpVerify = () => {
     //   return;
     // }
     try {
-      const request = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/resend/${''}`, {
+      const request = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/resend/${id?._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
