@@ -15,7 +15,6 @@ const List = () => {
           method: "GET",
           credentials: "include",
         });
-         console.log(res)
         if (res.status === 401) {
           Swal.fire({
             title: "Session Expired!",
@@ -29,6 +28,7 @@ const List = () => {
         }
 
         const data = await res.json();
+        console.log(data.list)
         setList(data.findAllName || []);
       } catch (err) {
         console.error("Fetch error:", err);
