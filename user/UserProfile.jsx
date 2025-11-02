@@ -4,27 +4,17 @@ import { Link } from "react-router-dom"
 import { RiShieldUserFill } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { useUser } from "../src/components/UserContext";
 const UserProfile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [u, setU] = useState();
-  const g = async () => {
-    const res = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/profile", {
-      method: "GET",
-      credentials: "include",
-    });
-
-    const data = await res.json();
-    if (data.status_code == 401) {
-        window.location.href = "/login";
-    }
-    return data;
-  };
-  g().then((e) => setU(e?.user));    
+  const {user} = useUser(); 
+  console.log(user?.user)
   const SetUserData = () => {
-    setName(u?.name);
-    setEmail(u?.email);
+    setName(user?.user?.name);
+    setEmail(user?.user?.email);
   };
+  
   const HandleSaveEditUserProfile = async (e) => {
     e.preventDefault();
     if (!name || !email) {
@@ -52,7 +42,7 @@ const UserProfile = () => {
       return;
     }
     try {
-      const request = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/edituser/${u?._id}`, {
+      const request = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/edituser/${user?.user?._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
@@ -125,10 +115,10 @@ const UserProfile = () => {
           <div style={{ textAlign: "left", width: "100%" }}>
             <h3 className="text-center"><RiShieldUserFill className="fs-1" /> User Profile</h3>
             <p style={{ boxShadow: "-2px 2px 1px 5px #1b2651", borderRadius: '100%', width: '100%', height: '2px' }} />
-            <p className="mb-2 fs-3"><strong>Full Name:</strong> {u?.name}</p>
-            <p className="mb-0 fs-3"><strong>Email ID:</strong> {u?.email}</p>
-            <p className="mb-0 fs-3"><strong>Role:</strong> {u?.role}</p>
-            <p className="mb-0 fs-3"><strong>Gender:</strong> {u?.gender}</p>
+            <p className="mb-2 fs-3"><strong>Full Name:</strong> {user?.user?.name}</p>
+            <p className="mb-0 fs-3"><strong>Email ID:</strong> {user?.user?.email}</p>
+            <p className="mb-0 fs-3"><strong>Role:</strong> {user?.user?.role}</p>
+            <p className="mb-0 fs-3"><strong>Gender:</strong> {user?.user?.gender}</p>
           </div>
         </div>
       </div>

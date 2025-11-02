@@ -10,12 +10,12 @@ import { IoIosRemoveCircle } from "react-icons/io";
 import { BsReverseListColumnsReverse } from "react-icons/bs";
 import { FaReact } from "react-icons/fa";
 import { FaRegCircleUser } from "react-icons/fa6";
-import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "./UserContext";
 const Home = () => {
-  const [u, setU] = useState();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const {user} = useUser();
   useEffect(() => {
     const g = async () => {
       try {
@@ -32,7 +32,6 @@ const Home = () => {
         if(data?.status_code == 401){
            navigate("/login");  
         }
-        setU(data?.user)
       } catch (err) {
         console.error("Fetch error:", err);
       }
@@ -47,12 +46,12 @@ const Home = () => {
         </Container>
       </Navbar>
       <Sidebar />
-      <h2 className="container text-center d-flex gap-2 justify-content-center align-items-center" style={{ color: '#edeae1' }}>Hi there! I'm <LuCircleUserRound style={{ fontSize: '4rem', color: '#1b2651' }} />"{u?.name}"</h2>
+      <h4 className="container text-center d-flex gap-2 justify-content-center align-items-center" style={{ color: '#edeae1' }}>Hi there! I'm <LuCircleUserRound style={{ fontSize: '4rem', color: '#1b2651' }} />"{user?.user?.name}"</h4>
       <div className="container card text-center" style={{ boxShadow: '-3px 4px 4px 2px #1b2651', height: '20rem', backgroundColor: '#edeae1', color: '#1b2651', border: 'none' }}>
         <br />
         <h3 className="d-flex align-items-center justify-content-center gap-2"><FaUserShield />The Amazing! To-Do List</h3>
         <br />
-        <div className="container row mt-4">
+        <div className="container row mt-2">
           <div className="col-md-4">
             <h6 className="d-flex align-items-center justify-content-center gap-2 p-1" style={{ boxShadow: '-2px 2px 4px 2px #1b2651' }}><MdPlaylistAdd /> Add List</h6>
           </div>

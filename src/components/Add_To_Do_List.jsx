@@ -21,13 +21,15 @@ const Add_To_Do_List = () => {
       const request = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/postname", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user?.token}`
         },
+        credentials: 'include',
         body: JSON.stringify({ name: nameRef.current.value })
       })
       const response = await request.json();
       console.log(request)
-      if(request.status == false){
+      if (request.ok == false){
          Swal.fire({
           title: response.message,
           text: 'Please Try again!',
@@ -46,7 +48,7 @@ const Add_To_Do_List = () => {
       console.error("Internal Server error:", err);
     }
   }
-  console.log(user);
+  console.log("user :", user);
   return (
     <div style={{ backgroundColor: '#166c96', height: '56.96rem' }}>
       <Navbar style={{ backgroundColor: '#1b2651', color: '#edeae1' }}>
@@ -64,7 +66,6 @@ const Add_To_Do_List = () => {
         <input type="text" className="form-control" htmlFor="name" name="name" ref={nameRef} style={{ padding: '12px', textAlign: 'center', fontSize: '18px' }} /><br />
         <button type="submit" className="form-control" style={{ backgroundColor: '#166c96', color: '#edeae1', padding: '12px', fontSize: '18px' }}>Add</button>
       </form>
-
     </div>
   )
 }

@@ -13,11 +13,7 @@ export const UserProvider = ({ children }) => {
       });
 
       const data = await res.json();
-      if (res.ok) {
-        setUser(data.user); 
-      } else {
-        setUser(null);
-      }
+      console.log(data);
     } catch (err) {
       setUser(null); 
       console.error("Error fetching profile:", err);
@@ -36,10 +32,8 @@ export const UserProvider = ({ children }) => {
         credentials: "include",
       });
       const data = await res.json();
-      if (data.status_code === 401) {
-        localStorage.clear();
-        window.location.href = "/login";
-      }
+      console.log(data)
+      setUser(data);
     };
     checkSession();
     const interval = setInterval(checkSession, 5 * 60 * 1000);
