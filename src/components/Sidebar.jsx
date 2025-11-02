@@ -9,12 +9,21 @@ import { HiOutlineWrenchScrewdriver } from "react-icons/hi2";
 import { MdManageAccounts } from "react-icons/md";
 import { MdNoAccounts } from "react-icons/md";
 import { LuLogOut } from "react-icons/lu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdFormatListBulletedAdd } from "react-icons/md";
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const show = () => setOpen(true);
   const hide = () => setOpen(false);
+  const navigate = useNavigate();
+  const logout = async()=>{
+    const res = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+    console.log(res);
+    navigate("/sign");
+  }
   return (
     <div>
       <p className="d-flex align-items-center gap-2" style={{ color: '#edeae1', boxShadow: '-3px 3px 4px 3px #1b2651' }}><GoSidebarCollapse onClick={show} style={{ fontSize: '35px', color: '#edeae1', cursor: 'pointer'}} /><b>TaskBoard</b></p>
@@ -56,7 +65,8 @@ const Sidebar = () => {
           <Accordion.Item eventKey="1">
             <Accordion.Header><b>Settings</b></Accordion.Header>
             <Accordion.Body>
-              <MdNoAccounts /> <Link to="/sign" style={{ textDecoration: 'none' }}>Sign Up?</Link>
+              {/* <MdNoAccounts /> <Link to="/sign" style={{ textDecoration: 'none' }}>Sign Up?</Link> */}
+            <MdNoAccounts /> <a type="button" onClick={logout} style={{ textDecoration: 'none', color: 'blue'}}>Sign up</a>
             </Accordion.Body>
             <Accordion.Body>
               <MdManageAccounts /> <Link to="/login" style={{ textDecoration: 'none' }}>Sign in?</Link>
@@ -67,7 +77,7 @@ const Sidebar = () => {
           </Accordion.Item>
         </Accordion>
         <div className="text-center mt-auto">
-          <small>© 2025 ToDo List</small>
+          <small>© 2025 todo19.web</small>
         </div>
       </Offcanvas>
     </div>

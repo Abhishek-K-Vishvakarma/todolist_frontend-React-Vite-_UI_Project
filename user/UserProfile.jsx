@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Container, Navbar } from "react-bootstrap"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { RiShieldUserFill } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
@@ -8,7 +8,8 @@ import { useUser } from "../src/components/UserContext";
 const UserProfile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const {user} = useUser(); 
+  const {user} = useUser();
+  const navigate = useNavigate();
   console.log(user?.user)
   const SetUserData = () => {
     setName(user?.user?.name);
@@ -95,6 +96,7 @@ const UserProfile = () => {
             console.log("I was closed by the timer");
           }
         });
+        navigate("/userprofile");
         setName("");
         setEmail("");
       }
