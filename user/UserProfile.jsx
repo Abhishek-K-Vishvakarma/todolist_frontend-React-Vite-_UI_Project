@@ -107,24 +107,24 @@ const UserProfile = () => {
     <div style={{ backgroundColor: '#166C96', height: '56.96rem' }}>
       <Navbar style={{ backgroundColor: '#1b2651', color: '#edeae1' }}>
         <Container>
-          <h4><Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>Home</Link></h4><h4>TODO List Website</h4>
+          <h5><Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>Home</Link></h5><h5>To-Do List</h5>
         </Container>
       </Navbar>
       <div className="container card mt-5" style={{ padding: "30px", backgroundColor: "#edeae1", boxShadow: "-3px 3px 3px 3px #1b2651", maxWidth: "800px" }}>
         <div className="d-flex flex-column align-items-center">
           <div style={{ textAlign: "left", width: "100%" }}>
-            <h3 className="text-center"><RiShieldUserFill className="fs-1" /> User Profile</h3>
+            <h3 className="text-center"><RiShieldUserFill className="fs-1" />User Profile</h3>
             <p style={{ boxShadow: "-2px 2px 1px 5px #1b2651", borderRadius: '100%', width: '100%', height: '2px' }} />
-            <p className="mb-2 fs-3"><strong>Full Name:</strong> {user?.user?.name}</p>
-            <p className="mb-0 fs-3"><strong>Email ID:</strong> {user?.user?.email}</p>
-            <p className="mb-0 fs-3"><strong>Role:</strong> {user?.user?.role}</p>
-            <p className="mb-0 fs-3"><strong>Gender:</strong> {user?.user?.gender}</p>
+            <p className="card mb-2 fs-5 p-2 d-inline-block w-100"><strong>Full Name:</strong> {user?.user?.name}</p>
+            <p className="card mb-2 fs-5 p-2 d-inline-block w-100"><strong>Email ID:</strong> {user?.user?.email}</p>
+            <p className="card mb-2 fs-5 p-2 d-inline-block w-100"><strong>Role:</strong> {user?.user?.role}</p>
+            <p className="card mb-2 fs-5 p-2 d-inline-block w-100"><strong>Gender:</strong> {user?.user?.gender}</p>
           </div>
         </div>
       </div>
       <br />
       <div className="container card p-5" style={{ padding: "30px", backgroundColor: "#edeae1", boxShadow: "-3px 3px 3px 3px #1b2651", maxWidth: "800px" }}>
-          <button onClick={SetUserData} style={{ background: 'none', fontSize: '20px', border: 'none', width: '30%'}} className="d-flex align-items-center gap-2" title="Set User Data in the input fields"><FaRegEdit />Edit Profile-Click</button>
+          <button onClick={SetUserData} style={{ background: 'none', fontSize: '20px', border: 'none', width: '30%'}} className="d-flex align-items-center w-100" title="Set User Data in the input fields"><FaRegEdit />Edit Profile-Click</button>
         <form onSubmit={HandleSaveEditUserProfile}>
           <br />
           <label>FullName</label>

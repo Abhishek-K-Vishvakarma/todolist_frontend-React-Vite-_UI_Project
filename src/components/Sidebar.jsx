@@ -25,7 +25,7 @@ const Sidebar = () => {
               <h5 className="mb-0">Menu</h5>
             </div>
             <div className="col-md-6 col-4">
-              <h4 className="mb-0 fw-bold">ToDo List</h4>
+              <h6 className="mb-0 fw-bold">ToDo List</h6>
             </div>
             <div className="col-md-3 col-4 d-flex justify-content-end">
               <CloseButton
