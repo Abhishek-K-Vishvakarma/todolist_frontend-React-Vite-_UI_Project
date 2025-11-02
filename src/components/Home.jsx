@@ -38,7 +38,7 @@ const Home = () => {
       }
     };
     g()
-  }, []);
+  }, [navigate]);
   return (
     <div style={{ backgroundColor: '#166C96', height: '55.98rem' }}>
       <Navbar style={{ backgroundColor: '#1b2651', color: '#edeae1' }}>

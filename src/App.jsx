@@ -13,9 +13,11 @@ import Logout from '../user/Logout';
 import UserProfile from '../user/UserProfile';
 import Forgotpassword from '../user/Forgotpassword';
 import Resetpassword from '../user/Resetpassword';
+import { UserProvider } from './components/UserContext';
 function App() {
   return (
     <>
+      <UserProvider>
       <BrowserRouter>
         {/* <Authentications> */}
           <Routes>
@@ -33,6 +35,7 @@ function App() {
           </Routes>
         {/* </Authentications> */}
       </BrowserRouter>
+      </UserProvider>
     </>
   )
 }

@@ -2,13 +2,13 @@ import { useRef } from "react";
 import { Container, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-// import { useAuth } from "../src/components/Auth";
+import { useUser } from "../src/components/UserContext";
 
 const Login = () => {
   const emRef = useRef();
   const passRef = useRef();
   const navigate = useNavigate();
-  // const { AuthUserData } = useAuth();
+  const { setUser } = useUser();
 
   const LoginUser = async (e) => {
     e.preventDefault();
@@ -36,32 +36,30 @@ const Login = () => {
         }
       );
 
-      const text = await request.text();
-      let response;
-      try {
-        response = JSON.parse(text);
-      } catch (err) {
-        Swal.fire("Server Error", "Invalid response from server.", "error", err);
-        return;
-      }
-      // AuthUserData(response.login);
-      if (!request.ok) {
+     const response = await request.json();
+     if(request.status == 400){
         Swal.fire({
-          title: "Login Failed",
-          text: response.message || "Something went wrong!",
-          icon: "error",
-          timer: 3000,
-        });
-        return;
-      }else{
+          title: "Invalid request!",
+          text: response.message,
+          icon: 'error',
+          timer: 2000
+        })
+     }
+
+      if (request.status == 200) {
         Swal.fire({
-          title: response.message || "Login Successful!",
-          icon: "success",
-          timer: 2000,
-          showConfirmButton: false,
-        });
-        navigate("/");
+          title: "Success Reuqest!",
+          text: response.message,
+          icon: 'success',
+          timer: 2000
+        })
+        setUser(response.login);
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
       }
+      console.log(response);
+      
     } catch (err) {
       Swal.fire("Error", "Unable to connect to the server.", "error", err);
     }

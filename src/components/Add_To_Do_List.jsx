@@ -3,11 +3,12 @@ import { Container, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { LuClipboardList } from "react-icons/lu";
-
+import { useUser } from "./UserContext";
 const Add_To_Do_List = () => {
   const nameRef = useRef("");
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
+  const { user } = useUser();
   const AddedName = async (e) => {
     if (nameRef.current.value == "") {
       setMsg("Please! fill input field");
@@ -25,6 +26,7 @@ const Add_To_Do_List = () => {
         body: JSON.stringify({ name: nameRef.current.value })
       })
       const response = await request.json();
+      console.log(request)
       if(request.status == false){
          Swal.fire({
           title: response.message,
@@ -44,6 +46,7 @@ const Add_To_Do_List = () => {
       console.error("Internal Server error:", err);
     }
   }
+  console.log(user);
   return (
     <div style={{ backgroundColor: '#166c96', height: '56.96rem' }}>
       <Navbar style={{ backgroundColor: '#1b2651', color: '#edeae1' }}>
