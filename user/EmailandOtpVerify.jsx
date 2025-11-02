@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Container, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -77,59 +77,60 @@ const EmailandOtpVerify = () => {
       console.log("Internal Server Error :", err);
     }
   }
-  fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/users")
-  .then(e=> e.json())
-  .then((data)=>{
-   const find = data.users.find(e=> e.otp && e.isVerified == false);
-   setId(find);
-  });
-
-  const ResendOTP = async () => {
-    // if (signup?.savedUser?.isVerified == true) {
-    //   Swal.fire({
-    //     title: "Invalid Request!",
-    //     text: "Already Verified",
-    //     icon: 'error',
-    //     timer: 2000
-    //   });
-    //   return;
-    // }
-    try {
-      const request = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/resend/${id?._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: 'include'
+  useEffect(()=>{
+    fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/users")
+      .then(e => e.json())
+      .then((data) => {
+        const find = data.users.find(e => e.otp && e.isVerified == false);
+        setId(find);
       });
-      const response = await request.json();
-      let timerInterval;
-      Swal.fire({
-        title: response.message,
-        html: "I will close in <b></b> milliseconds.",
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: () => {
-          Swal.showLoading();
-          const timer = Swal.getPopup().querySelector("b");
-          timerInterval = setInterval(() => {
-            timer.textContent = `${ Swal.getTimerLeft() }`;
-          }, 100);
-        },
-        willClose: () => {
-          clearInterval(timerInterval);
-        }
-      }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.timer) {
-          console.log("I was closed by the timer");
-        }
-      });
-      console.log(response);
-    } catch (err) {
-      console.log("Internal Server error :", err);
-    }
-  }
-  // console.log(signup?.savedUser?._id);
+  },[]);
+  console.log(id)
+  // const ResendOTP = async () => {
+  //   // if (signup?.savedUser?.isVerified == true) {
+  //   //   Swal.fire({
+  //   //     title: "Invalid Request!",
+  //   //     text: "Already Verified",
+  //   //     icon: 'error',
+  //   //     timer: 2000
+  //   //   });
+  //   //   return;
+  //   // }
+  //   try {
+  //     const request = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/resend/${id?._id}`, {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json"
+  //       },
+  //       credentials: 'include'
+  //     });
+  //     const response = await request.json();
+  //     let timerInterval;
+  //     Swal.fire({
+  //       title: response.message,
+  //       html: "I will close in <b></b> milliseconds.",
+  //       timer: 2000,
+  //       timerProgressBar: true,
+  //       didOpen: () => {
+  //         Swal.showLoading();
+  //         const timer = Swal.getPopup().querySelector("b");
+  //         timerInterval = setInterval(() => {
+  //           timer.textContent = `${ Swal.getTimerLeft() }`;
+  //         }, 100);
+  //       },
+  //       willClose: () => {
+  //         clearInterval(timerInterval);
+  //       }
+  //     }).then((result) => {
+  //       if (result.dismiss === Swal.DismissReason.timer) {
+  //         console.log("I was closed by the timer");
+  //       }
+  //     });
+  //     console.log(response);
+  //   } catch (err) {
+  //     console.log("Internal Server error :", err);
+  //   }
+  // }
   return (
     <div style={{ backgroundColor: '#166C96', height: '56.96rem' }}>
       <Navbar style={{ backgroundColor: '#1b2651', color: '#edeae1' }}>
@@ -141,14 +142,14 @@ const EmailandOtpVerify = () => {
       <div className='container card' style={{ padding: '30px', backgroundColor: '#edeae1', boxShadow: '-3px 3px 3px 3px #1b2651' }}>
         <form onSubmit={submitVerify}>
           <label>Email</label>
-          <input type='text' className='form-control' ref={emRef} /><br />
+          <input type='text' className='form-control' value={id?.email} ref={emRef} disabled/><br />
           <label>OTP</label>
-          <input type='text' className='form-control' ref={otpRef} /><br />
+          <input type='text' className='form-control' value={id?.otp} ref={otpRef} disabled/><br />
           <div className="row d-flex">
             <button type='submit' className='btn btn-success' style={{ width: '100%' }}>Verify-OTP</button>
           </div>
         </form>
-        <button onClick={ResendOTP} className="btn btn-primary mt-1">Resend-OTP</button>
+        {/* <button onClick={ResendOTP} className="btn btn-primary mt-1">Resend-OTP</button>  This is workable code*/} 
       </div>
     </div>
   )
