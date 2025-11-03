@@ -4,30 +4,29 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
-  const fetchProfile = async () => {
-    try {
-      const res = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/profile", {
-        method: "GET",
-        credentials: "include",
-      });
-
-      const data = await res.json();
-      console.log(data);
-    } catch (err) {
-      setUser(null); 
-      console.error("Error fetching profile:", err);
-    }
-  };
-
-  useEffect(() => {
-    fetchProfile();
-  }, []);
-
+  
+  useEffect(()=>{
+    const fetchProfile = async () => {
+      try {
+        fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/profile", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${ user?.token }`
+          }
+        }).then(e => e.json())
+          .then(e => console.log(e));
+      } catch (err) {
+        setUser(null);
+        console.error("Error fetching profile:", err);
+      }
+    };
+    fetchProfile()
+  },[user]);
 
   useEffect(() => {
     const checkSession = async () => {
-      const res = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/token`, {
+      const res = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/token`,{
         method: "GET",
         credentials: "include",
       });
@@ -39,7 +38,6 @@ export const UserProvider = ({ children }) => {
     const interval = setInterval(checkSession, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
-
   return (
     <UserContext.Provider value={{ user, setUser }}>
       {children}

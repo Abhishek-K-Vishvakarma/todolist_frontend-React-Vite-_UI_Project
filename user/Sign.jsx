@@ -85,6 +85,7 @@ const Sign = () => {
           icon: 'success',
           timer: 2000
         }).then(function(){
+          localStorage.setItem("signData", JSON.stringify(response));
           navigate("/verify");
         });
       }

@@ -6,7 +6,6 @@ import { useUser } from "./UserContext";
 
 const List = () => {
   const [list, setList] = useState([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const {user} = useUser();
   useEffect(() => {
@@ -14,40 +13,31 @@ const List = () => {
       try {
         const res = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/getname", {
           method: "GET",
-          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${user?.token}` 
+          }
         });
-        if (res.status === 401) {
-          Swal.fire({
-            title: "Session Expired!",
-            text: "Please login again.",
-            icon: "warning",
-            timer: 2000,
-            showConfirmButton: false,
-          });
-          navigate("/login");
-          return;
-        }
-
         const data = await res.json();
-        setList(data.findAllName[0]?.list || []);
+        console.log(data);
+        const f = data.findAllName.map(e=> e.list);
+        setList(f[0]);
       } catch (err) {
         console.error("Fetch error:", err);
-        Swal.fire("Error", "Failed to load data", "error");
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
 
     fetchData();
-  }, [navigate]);
-  console.log(list)
+  }, [user]);
   const DelName = async (id) => {
     console.log(id)
     try {
       const res = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/deletename/${id}`,{
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        "Authorization": `Bearer ${user?.token}`,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${ user?.token }`
+        },
         credentials: "include",
       });
       const data = await res.json();
@@ -74,8 +64,6 @@ const List = () => {
     navigate("/edit");
   };
 
-  if (loading) return <p className="text-center mt-5">Loading...</p>;
-
   return (
     <div style={{ backgroundColor: "#166c96", minHeight: "100vh" }}>
       <Navbar style={{ backgroundColor: "#1b2651", color: "#edeae1" }}>
@@ -88,11 +76,7 @@ const List = () => {
           <h4>To-Do-List</h4>
         </Container>
       </Navbar>
-
       <div className="container mt-4">
-        {list.length === 0 ? (
-          <p className="text-center text-light mt-5">No items found.</p>
-        ) : (
           <table className="table table-hover table-striped table-bordered bg-light">
             <thead className="table-dark text-center">
               <tr>
@@ -124,7 +108,6 @@ const List = () => {
               ))}
             </tbody>
           </table>
-        )}
       </div>
     </div>
   );

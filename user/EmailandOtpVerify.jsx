@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef} from "react"
 import { Container, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -8,7 +8,9 @@ const EmailandOtpVerify = () => {
   const otpRef = useRef();
   const navigate = useNavigate();
   // const {user} = useUser();
-  const [id, setId] = useState("");
+  const u_data = localStorage.getItem("signData");
+  const s = JSON.parse(u_data);
+  console.log(s);
   const submitVerify = async (e) => {
     e.preventDefault();
     const obj = {
@@ -26,66 +28,28 @@ const EmailandOtpVerify = () => {
       });
       const response = await request.json();
       if (request.ok == false) {
-        let timerInterval;
-        Swal.fire({
-          title: response.message,
-          html: "I will close in <b></b> milliseconds.",
-          timer: 2000,
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading();
-            const timer = Swal.getPopup().querySelector("b");
-            timerInterval = setInterval(() => {
-              timer.textContent = `${ Swal.getTimerLeft() }`;
-            }, 100);
-          },
-          willClose: () => {
-            clearInterval(timerInterval);
-          }
-        }).then((result) => {
-          if (result.dismiss === Swal.DismissReason.timer) {
-            console.log("I was closed by the timer");
-          }
-        });
+         Swal.fire({
+          title: "Invalid Request!",
+          text: response.message,
+          icon: 'error',
+          timer: 2000
+         })
       } else {
-        let timerInterval;
         Swal.fire({
-          title: response.message,
-          html: "I will close in <b></b> milliseconds.",
-          timer: 2000,
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading();
-            const timer = Swal.getPopup().querySelector("b");
-            timerInterval = setInterval(() => {
-              timer.textContent = `${ Swal.getTimerLeft() }`;
-            }, 100);
-          },
-          willClose: () => {
-            clearInterval(timerInterval);
-          }
-        }).then((result) => {
-          if (result.dismiss === Swal.DismissReason.timer) {
-            console.log("I was closed by the timer");
-          }
-        });
+          title: "Verify Request!",
+          text: response.message,
+          icon: 'success',
+          timer: 2000
+        })
         emRef.current.value = "";
         otpRef.current.value = "";
+        localStorage.removeItem("signData");
         navigate("/login");
       }
     } catch (err) {
       console.log("Internal Server Error :", err);
     }
   }
-  useEffect(()=>{
-    fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/users")
-      .then(e => e.json())
-      .then((data) => {
-        const find = data.users.find(e => e.otp && e.isVerified == false);
-        setId(find);
-      });
-  },[]);
-  console.log(id)
   // const ResendOTP = async () => {
   //   // if (signup?.savedUser?.isVerified == true) {
   //   //   Swal.fire({
@@ -142,9 +106,9 @@ const EmailandOtpVerify = () => {
       <div className='container card' style={{ padding: '30px', backgroundColor: '#edeae1', boxShadow: '-3px 3px 3px 3px #1b2651' }}>
         <form onSubmit={submitVerify}>
           <label>Email</label>
-          <input type='text' className='form-control' value={id?.email} ref={emRef} disabled/><br />
+          <input type='text' className='form-control' value={s?.savedUser?.email} ref={emRef} disabled/><br />
           <label>OTP</label>
-          <input type='text' className='form-control' value={id?.otp} ref={otpRef} disabled/><br />
+          <input type='text' className='form-control' value={s?.savedUser?.otp} ref={otpRef} disabled/><br />
           <div className="row d-flex">
             <button type='submit' className='btn btn-success' style={{ width: '100%' }}>Verify-OTP</button>
           </div>

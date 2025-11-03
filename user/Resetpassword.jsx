@@ -1,19 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { Container, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+// import { useUser } from "../src/components/UserContext";
 const Resetpassword = () => {
   const newPasswordRef = useRef();
   const navigate = useNavigate();
-  const [id, setId] = useState("");
-  useEffect(() => {
-    fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/users")
-      .then(e => e.json())
-      .then((data) => {
-        const find = data.users.find(e => e);
-        setId(find);
-      });
-  }, []);
+  const data = localStorage.getItem("forgotPassword");
+  const res = JSON.parse(data);
   const handleResetPassword = async (e) => {
     e.preventDefault();
     const newPass = newPasswordRef.current.value.trim();
@@ -22,7 +16,7 @@ const Resetpassword = () => {
       return;
     }
     try {
-      const response = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/reset-password/${id?.token}`, {
+      const response = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/reset-password/${res?.resetToken}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,6 +29,7 @@ const Resetpassword = () => {
         Swal.fire("Error", data.message, "error");
       } else {
         Swal.fire("Success", data.message, "success");
+        localStorage.removeItem("forgotPassword");
         navigate("/login");
       }
     } catch (err) {

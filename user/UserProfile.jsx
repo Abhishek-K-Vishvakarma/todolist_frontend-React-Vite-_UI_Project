@@ -46,7 +46,8 @@ const UserProfile = () => {
       const request = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/edituser/${user?.user?._id}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user?.token}`
         },
         credentials: 'include',
         body: JSON.stringify({ name: name, email: email })

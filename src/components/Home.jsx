@@ -20,28 +20,11 @@ import { SiInstagram } from "react-icons/si";
 const Home = () => {
   const navigate = useNavigate();
   const { user } = useUser();
-  useEffect(() => {
-    const g = async () => {
-      try {
-        const res = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/profile",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            credentials: "include",
-          }
-        );
-        const data = await res.json();
-        if (data?.status_code == 401) {
-          navigate("/login");
-        }
-      } catch (err) {
-        console.error("Fetch error:", err);
-      }
-    };
-    g()
-  }, [navigate]);
+  useEffect(()=>{
+    if (user?.status_code == 401){
+       navigate("/login");
+    }
+  },[user]);
   return (
     <div style={{ backgroundColor: '#166C96', backgroundPosition: 'center'}}>
       <Navbar style={{ backgroundColor: '#1b2651', color: '#edeae1' }}>

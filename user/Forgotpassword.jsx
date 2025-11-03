@@ -21,7 +21,6 @@ const Forgotpassword = () => {
       });
       return;
     }
-
     try {
       const request = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/forgot-password",
         {
@@ -32,6 +31,7 @@ const Forgotpassword = () => {
       );
       const response = await request.json();
       console.log("Forgot Password Response:", response);
+      localStorage.setItem("forgotPassword", JSON.stringify(response));
       if (!request.ok) {
         Swal.fire({
           title: "Request Failed!",
