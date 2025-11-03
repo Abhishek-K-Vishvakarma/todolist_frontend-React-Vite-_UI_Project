@@ -9,48 +9,57 @@ const Add_To_Do_List = () => {
   const nameRef = useRef("");
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
-  const { user } = useUser();
-
+  const { user } = useUser(); // ✅ Getting user data (contains token)
+  // console.log("User token :", user?.token)
   const AddedName = async (e) => {
     e.preventDefault();
-    if (nameRef.current.value.trim() === "") {
+
+    const name = nameRef.current.value.trim();
+    if (name === "") {
       setMsg("Please fill the input field!");
       setTimeout(() => setMsg(""), 2000);
       return;
     }
+
     try {
-      const request = await fetch(
-        "https://todolist-backend-node-js-apis-project.onrender.com/api/postname",
-        {
+      const response = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/postname",{
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${ user?.token }`,
+            "Authorization": `Bearer ${ user?.token }`,
           },
           credentials: "include",
-          body: JSON.stringify({ name: nameRef.current.value }),
+          body: JSON.stringify({ name: name }),
         }
       );
-      const response = await request.json();
-      console.log("Response:", response);
 
-      if (!request.ok) {
+      const data = await response.json();
+      console.log("Response:", data);
+
+      // ✅ Handle Errors
+      if (!response.ok || data.status === false) {
         Swal.fire({
           title: "Error!",
-          text: response.message || "Something went wrong!",
+          text: data.message || "Something went wrong!",
           icon: "error",
         });
-      } else {
-        Swal.fire({
-          title: "Success!",
-          text: response.message || "Item added successfully!",
-          icon: "success",
-          timer: 2000,
-          showConfirmButton: false,
-        });
-        nameRef.current.value = "";
-        navigate("/list");
+        return;
       }
+
+      // ✅ Success message
+      Swal.fire({
+        title: "Success!",
+        text: data.message || "Item added successfully!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
+      // ✅ Clear input
+      nameRef.current.value = "";
+
+      // ✅ Redirect to list page
+      setTimeout(() => navigate("/list"), 2000);
     } catch (err) {
       console.error("Internal Server Error:", err);
       Swal.fire({
@@ -96,6 +105,7 @@ const Add_To_Do_List = () => {
               }}
             />
           </div>
+
           <h3 className="text-center mb-3">To-Do List Website</h3>
           {msg && <p className="text-danger text-center">{msg}</p>}
 
@@ -114,6 +124,7 @@ const Add_To_Do_List = () => {
             placeholder="Enter your task"
             style={{ padding: "12px", fontSize: "18px" }}
           />
+
           <button
             type="submit"
             className="form-control btn"

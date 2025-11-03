@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { Container, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useUser } from "./UserContext";
 
 const List = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
+  const {user} = useUser();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,8 +29,7 @@ const List = () => {
         }
 
         const data = await res.json();
-        console.log(data.list)
-        setList(data.findAllName || []);
+        setList(data.findAllName[0]?.list || []);
       } catch (err) {
         console.error("Fetch error:", err);
         Swal.fire("Error", "Failed to load data", "error");
@@ -40,22 +40,23 @@ const List = () => {
 
     fetchData();
   }, [navigate]);
-
+  console.log(list)
   const DelName = async (id) => {
+    console.log(id)
     try {
-      const res = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/deletename/${id}`, {
+      const res = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/deletename/${id}`,{
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
+        "Authorization": `Bearer ${user?.token}`,
         credentials: "include",
       });
-
       const data = await res.json();
-
       if (!res.ok) {
         Swal.fire("Error", data.message || "Failed to delete!", "error");
         return;
       }
-      setList((prevList) => prevList.filter((p) => p._id !== id));
+      console.log(list)
+      setList(list.filter(u=> u._id != id));
       Swal.fire({
         title: "Deleted Successfully!",
         timer: 1200,
