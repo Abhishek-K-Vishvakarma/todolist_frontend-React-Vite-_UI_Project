@@ -14,6 +14,7 @@ import UserProfile from '../user/UserProfile';
 import Forgotpassword from '../user/Forgotpassword';
 import Resetpassword from '../user/Resetpassword';
 import { UserProvider } from './components/UserContext';
+import ImageUpload from '../user/ImageUpload';
 function App() {
   return (
     <>
@@ -32,6 +33,7 @@ function App() {
             <Route path='/userprofile' element={<UserProfile />}></Route>
             <Route path='/forgot-password' element={<Forgotpassword/>}></Route>
             <Route path='/reset-password' element={<Resetpassword />}></Route>
+            <Route path='/image' element={<ImageUpload />}></Route>
           </Routes>
         {/* </Authentications> */}
       </BrowserRouter>
