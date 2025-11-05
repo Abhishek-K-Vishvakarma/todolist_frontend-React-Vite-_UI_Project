@@ -9,8 +9,7 @@ const Add_To_Do_List = () => {
   const nameRef = useRef("");
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
-  const { user } = useUser(); // ✅ Getting user data (contains token)
-  // console.log("User token :", user?.token)
+  const { user } = useUser();
   const AddedName = async (e) => {
     e.preventDefault();
 

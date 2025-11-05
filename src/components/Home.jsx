@@ -22,7 +22,7 @@ const Home = () => {
   const { user } = useUser();
   const [img, setImg] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-
+ 
   const handleImageClick = () => {
     setIsOpen(true);
   };
@@ -35,11 +35,10 @@ const Home = () => {
     .then(e=> e.json())
     .then((data)=>{
       setImg(data?.data?.image_url)
-    })
-  },[user]);
-  useEffect(()=>{
-    if (user?.status_code == 401){
-       navigate("/login");
+    });
+
+    if (user?.status_code == 401) {
+      navigate("/login");
     }
   },[user]);
   return (
@@ -59,24 +58,63 @@ const Home = () => {
       <Sidebar />
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
-          onClick={handleClose}
+          className="modal-overlay"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            backdropFilter: "blur(8px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+          }}
         >
-          <div className="relative">
+          <div
+            className="image-container"
+            style={{
+              position: "relative",
+              maxWidth: "90%",
+              maxHeight: "90%"
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
             <img
               src={img}
-              alt="Enlarged User"
-              className="max-w-[90vw] max-h-[90vh] rounded-xl shadow-xl"
+              alt="Enlarged"
+              style={{
+                width: "100%",
+                height: "auto",
+                borderRadius: "10px",
+                boxShadow: "0 4px 30px rgba(0,0,0,0.5)",
+              }}
             />
             <button
               onClick={handleClose}
-              className="absolute top-2 right-2 bg-white text-black rounded-full px-2 py-1 font-bold"
+              style={{
+                position: "absolute",
+                top: "-10px",
+                right: "-10px",
+                backgroundColor: "#fff",
+                color: "#000",
+                border: "none",
+                borderRadius: "50%",
+                fontSize: "20px",
+                width: "35px",
+                height: "35px",
+                cursor: "pointer",
+                boxShadow: "0 2px 5px rgba(0,0,0,0.4)",
+              }}
             >
               ✕
             </button>
           </div>
         </div>
       )}
+
       <h4 className="text-center d-flex gap-1 justify-content-center align-items-center" style={{ color: '#edeae1' }}>I'm <LuCircleUserRound style={{ fontSize: '3rem', color: '#1b2651' }} />{user?.user?.name}</h4>
       <div className="container card text-center p-5 mt-5" style={{ boxShadow: '-3px 4px 4px 2px #1b2651', backgroundColor: '#edeae1', color: '#1b2651', border: 'none', borderRadius: '0px' }}>
         <br />
