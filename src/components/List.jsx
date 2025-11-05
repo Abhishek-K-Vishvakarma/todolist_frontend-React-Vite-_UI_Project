@@ -29,8 +29,20 @@ const List = () => {
 
     fetchData();
   }, [user]);
+
   const DelName = async (id) => {
-    console.log(id)
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this action!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+    if (!result.isConfirmed) return;
+
     try {
       const res = await fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/deletename/${id}`,{
         method: "DELETE",
@@ -53,12 +65,13 @@ const List = () => {
         showConfirmButton: false,
         icon: "success",
       });
+      navigate(0);
     } catch (err) {
       console.error("Delete error:", err);
       Swal.fire("Error", "Internal Server Error", "error");
     }
   };
-
+  
   const Nameset = (item) => {
     localStorage.setItem("editItem", JSON.stringify(item));
     navigate("/edit");

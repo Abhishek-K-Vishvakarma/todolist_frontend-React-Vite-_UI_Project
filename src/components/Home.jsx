@@ -2,7 +2,7 @@ import { Container, Navbar } from "react-bootstrap";
 import Sidebar from "./Sidebar";
 import { Link } from "react-router-dom";
 import { LuCircleUserRound } from "react-icons/lu";
-import { FaUserShield } from "react-icons/fa";
+import { FaUser, FaUserShield } from "react-icons/fa";
 import { TbPencilCheck } from "react-icons/tb";
 import { MdPlaylistAdd } from "react-icons/md";
 import { RiFindReplaceLine } from "react-icons/ri";
@@ -38,20 +38,20 @@ const Home = () => {
     });
 
     if (user?.status_code == 401) {
-      navigate("/login");
+        navigate("/login");
     }
   },[user]);
   return (
     <div style={{ backgroundColor: '#166C96', backgroundPosition: 'center'}}>
       <Navbar style={{ backgroundColor: '#1b2651', color: '#edeae1' }}>
         <Container>
-          <h5><Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>Home</Link></h5><h5>To-Do List</h5><Link to="/userprofile" className="d-flex align-items-center justify-content-center gap-2 fs-5" style={{ textDecoration: 'none', color: '#edeae1', fontWeight: 'bold' }}>Profile</Link>
+          <h5><Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>Home</Link></h5><h5>To-Do List</h5><Link to="/userprofile" className="d-flex align-items-center justify-content-center gap-2 fs-5" style={{ textDecoration: 'none', color: '#edeae1'}}><FaUser/> Profile</Link>
           <div style={{position: 'relative'}}>
             <img src={img} style={{ width: '50px', height: '50px', borderRadius: '50px' }}
               className="w-32 h-32 object-cover rounded-full cursor-pointer shadow-lg hover:scale-105 transition-transform duration-200"
               onClick={handleImageClick}
             />
-            <Link to="/image"><BsPlus style={{ position: 'absolute', marginLeft: '-20px', fontSize: '25px', marginTop: '32px' }} /></Link>
+            <Link to="/image"><BsPlus style={{ position: 'absolute', marginLeft: '-20px', fontSize: '25px', marginTop: '32px', color: 'white'}} /></Link>
           </div>
         </Container>
       </Navbar>
@@ -116,7 +116,7 @@ const Home = () => {
       )}
 
       <h4 className="text-center d-flex gap-1 justify-content-center align-items-center" style={{ color: '#edeae1' }}>I'm <LuCircleUserRound style={{ fontSize: '3rem', color: '#1b2651' }} />{user?.user?.name}</h4>
-      <div className="container card text-center p-5 mt-5" style={{ boxShadow: '-3px 4px 4px 2px #1b2651', backgroundColor: '#edeae1', color: '#1b2651', border: 'none', borderRadius: '0px' }}>
+      <div className="container card text-center p-5 mt-5" style={{ boxShadow: '0px 0px 6px 4px #93ddf0ff', backgroundColor: '#edeae1', color: '#1b2651', border: 'none', borderRadius: '0px' }}>
         <br />
         <h5 className="d-flex align-items-center justify-content-center fs-3"><FaUserShield />The Amazing!</h5>
         <br />
