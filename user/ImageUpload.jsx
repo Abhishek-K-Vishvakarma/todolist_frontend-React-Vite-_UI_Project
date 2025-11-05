@@ -1,5 +1,5 @@
 import { Container, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoIosAdd } from "react-icons/io";
 import { BsCloud } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
@@ -10,6 +10,7 @@ const ImageUpload = () => {
   const filePath = useRef();
   const {user} = useUser();
   const [id, setId] = useState("");
+  const navigate = useNavigate();
   useEffect(()=>{
     setId(user?.user?.email);
   },[user]);
@@ -20,15 +21,26 @@ const ImageUpload = () => {
     formData.append("file", filePath.current.files[0]);
     formData.append("email", id);
    try{
-     const request = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/upload", {
+     const request = await fetch("https://todolist-backend-node-js-apis-project.onrender.com/api/upload",{
       method: "POST",
        body: formData
      })
      const response = await request.json();
-     Swal.fire({
-      title: "Request",
-      text: response.message
-     })
+     if(request.ok == false){
+       Swal.fire({
+         title: "Request",
+         text: response.message,
+         icon: 'error'
+       })
+     }else{
+       Swal.fire({
+         title: "Request",
+         text: response.message,
+         icon: 'success'
+       })
+      navigate("/");
+     }
+     
    }catch(err){
     console.error("Internal Server error :", err);
    }

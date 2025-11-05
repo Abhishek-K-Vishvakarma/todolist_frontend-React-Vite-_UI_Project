@@ -31,13 +31,12 @@ const Home = () => {
     setIsOpen(false);
   };
   useEffect(()=>{
-    fetch(`http://localhost:5005/api/user-image/${user?.user?._id}`)
+    fetch(`https://todolist-backend-node-js-apis-project.onrender.com/api/user-image/${user?.user?._id}`)
     .then(e=> e.json())
     .then((data)=>{
       setImg(data?.data?.image_url)
     })
   },[user]);
-
   useEffect(()=>{
     if (user?.status_code == 401){
        navigate("/login");
@@ -49,7 +48,7 @@ const Home = () => {
         <Container>
           <h5><Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>Home</Link></h5><h5>To-Do List</h5><Link to="/userprofile" className="d-flex align-items-center justify-content-center gap-2 fs-5" style={{ textDecoration: 'none', color: '#edeae1', fontWeight: 'bold' }}>Profile</Link>
           <div style={{position: 'relative'}}>
-            <img src={img} alt="Image" style={{ width: '50px', height: '50px', borderRadius: '50px' }}
+            <img src={img} style={{ width: '50px', height: '50px', borderRadius: '50px' }}
               className="w-32 h-32 object-cover rounded-full cursor-pointer shadow-lg hover:scale-105 transition-transform duration-200"
               onClick={handleImageClick}
             />
